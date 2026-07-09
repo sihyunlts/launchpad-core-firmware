@@ -44,7 +44,7 @@ fn main() -> ! {
     static mut SURFACE: Surface = Surface::new();
     static mut RUNTIME: RuntimeDriver = RuntimeDriver::new(core::ptr::null_mut());
     static mut APP_HOST: LaunchpadSAppHost =
-        AppHost::new(AppId::Performance, boot::BootApp::new(), app::LiveApp::new());
+        AppHost::new(AppId::Boot, boot::new(), app::LiveApp::new());
 
     let surface = unsafe { &mut *core::ptr::addr_of_mut!(SURFACE) };
     surface.init();
