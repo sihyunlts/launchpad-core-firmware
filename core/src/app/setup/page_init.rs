@@ -7,7 +7,6 @@ use crate::app::setup::page::Page;
 use crate::app::setup::text::Text;
 use crate::app::{AppId, SurfaceEvent};
 use crate::sys::led;
-#[cfg(feature = "rgb-color")]
 use crate::sys::settings;
 
 const PERFORMANCE_BUTTON: u8 = 11;
@@ -15,6 +14,10 @@ const PROGRAMMER_BUTTON: u8 = 12;
 const PALETTE_RAINBOW_BUTTON: u8 = 25;
 const CUSTOM_PALETTE_START: u8 = 26;
 const SYSTEM_PALETTE_START: u8 = 15;
+#[cfg(not(feature = "rgb-color"))]
+const RGB_COMPAT_PALETTE_BUTTON: u8 = SYSTEM_PALETTE_START + 2;
+#[cfg(not(feature = "rgb-color"))]
+const RG_PALETTE_BUTTON: u8 = SYSTEM_PALETTE_START + 3;
 
 pub struct InitPage {
     text: Text,
@@ -124,18 +127,28 @@ impl InitPage {
         }
         #[cfg(not(feature = "rgb-color"))]
         {
+            let palette = settings::get().palette;
+
             led::set(PALETTE_RAINBOW_BUTTON, 0x000000);
             for slot in 0..3 {
                 led::set(CUSTOM_PALETTE_START + slot, 0x000000);
             }
-            for system_palette in 0..4 {
-                led::set(SYSTEM_PALETTE_START + system_palette, 0x000000);
-            }
+
+            led::set(SYSTEM_PALETTE_START, 0x000000);
+            led::set(SYSTEM_PALETTE_START + 1, 0x000000);
+            led::set(
+                RGB_COMPAT_PALETTE_BUTTON,
+                if palette == 0 { 0x00ff00 } else { 0x003000 },
+            );
+            led::set(
+                RG_PALETTE_BUTTON,
+                if palette == 3 { 0xff8000 } else { 0x301000 },
+            );
         }
     }
 
-    #[cfg(feature = "rgb-color")]
     fn set_palette(&mut self, palette: u8) {
+        #[cfg(feature = "rgb-color")]
         ensure_custom_palette_has_template(palette);
 
         settings::update(|settings| {
@@ -171,6 +184,10 @@ impl Page for InitPage {
             }
             #[cfg(feature = "rgb-color")]
             15..=18 => self.set_palette(event.index - SYSTEM_PALETTE_START),
+            #[cfg(not(feature = "rgb-color"))]
+            RGB_COMPAT_PALETTE_BUTTON => self.set_palette(0),
+            #[cfg(not(feature = "rgb-color"))]
+            RG_PALETTE_BUTTON => self.set_palette(3),
             #[cfg(feature = "rgb-color")]
             26..=28 => self.set_palette(event.index - CUSTOM_PALETTE_START + 4),
             #[cfg(feature = "rgb-color")]

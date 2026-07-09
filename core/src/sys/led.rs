@@ -2,8 +2,9 @@
 // Copyright (C) 2025-2026 Anthony Hofmeister
 
 use crate::driver;
-#[cfg(feature = "rgb-color")]
 use crate::sys::settings;
+#[cfg(not(feature = "rgb-color"))]
+use crate::utils::palette::PALETTE_RGB_COMPAT_RG;
 #[cfg(feature = "rgb-color")]
 use crate::utils::palette::{PALETTE_MAT1JACZYYY, PALETTE_MXOS, PALETTE_NOVATION};
 
@@ -145,7 +146,10 @@ pub fn set_palette(index: u8, velocity: u8) {
     });
 
     #[cfg(not(feature = "rgb-color"))]
-    let (r, g, b) = rg_palette_rgb(velocity);
+    let (r, g, b) = settings::with(|settings| match settings.palette {
+        3 => rg_palette_rgb(velocity),
+        _ => PALETTE_RGB_COMPAT_RG.rgb(velocity),
+    });
 
     update_base(index, LedColor::raw6(r, g, b));
     driver::set_led_raw(index, r, g, b);
@@ -156,7 +160,7 @@ pub fn novation(index: u8, velocity: u8) {
     let (r, g, b) = PALETTE_NOVATION.rgb(velocity);
 
     #[cfg(not(feature = "rgb-color"))]
-    let (r, g, b) = rg_palette_rgb(velocity);
+    let (r, g, b) = PALETTE_RGB_COMPAT_RG.rgb(velocity);
 
     update_base(index, LedColor::raw6(r, g, b));
     driver::set_led_raw(index, r, g, b);
