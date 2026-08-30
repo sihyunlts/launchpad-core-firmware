@@ -20,3 +20,7 @@
 
 # Temporary files
 /tmp/
+
+# Python bytecode
+__pycache__/
+*.pyc
