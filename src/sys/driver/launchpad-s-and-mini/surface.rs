@@ -360,11 +360,11 @@ fn key_to_index(key: usize) -> u8 {
 fn index_to_key(index: u8) -> usize {
     match index {
         11..=89 => {
-            let row = (index / 10).saturating_sub(1) as usize;
-            let col = (index % 10).saturating_sub(1) as usize;
-            if row < 8 && col < 9 {
-                let mirrored_row = 7 - row;
-                mirrored_row * 9 + col
+            let row = (index / 10) as usize;
+            let col = (index % 10) as usize;
+            if (1..=8).contains(&row) && (1..=9).contains(&col) {
+                let mirrored_row = 8 - row;
+                mirrored_row * 9 + (col - 1)
             } else {
                 RED_MAP.len()
             }
