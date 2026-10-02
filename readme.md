@@ -22,6 +22,7 @@ Alternatively, download the `.syx` file from the [releases page](../../releases)
   - Asynchronous MIDI processing
   - Optimized flash storage read/write routines
 - [Roadrunner](https://github.com/anthonyhfm/lppmk3-roadrunner) support on the Launchpad Pro Mk3 (high-speed LED system)
+- DAW integration: Session control on all targets, model-specific page navigation and native faders
 - Multiple built-in color palettes
   - Novation palette
   - Mat1jaczyyy palette
@@ -39,19 +40,19 @@ Alternatively, download the `.syx` file from the [releases page](../../releases)
 
 Novation Launchpad support:
 
-| Device             | Working | RGB | Custom Palettes | Highspeed LED |
-| ------------------ | :-----: | :-: | :-------------: | :-----------: |
-| Launchpad Pro Mk3  |   ✅    | ✅  |       ✅        |      ✅       |
-| Launchpad X        |   ✅    | ✅  |       ✅        |      ✅       |
-| Launchpad Mini Mk3 |   ✅    | ✅  |       ✅        |      ✅       |
-| Launchpad Pro      |   ✅    | ✅  |       ✅        |      ✅       |
-| Launchpad Mk2      |   ✅    | ✅  |       ✅        |      ✅       |
-| Launchpad Mini Mk1 |   ✅    | ❌  |       ❌        |      ❌       |
-| Launchpad S        |   ✅    | ❌  |       ❌        |      ❌       |
+| Device                          | Working | RGB | Custom Palettes | Highspeed LED |
+| ------------------------------- | :-----: | :-: | :-------------: | :-----------: |
+| Launchpad Pro Mk3               |   ✅    | ✅  |       ✅        |      ✅       |
+| Launchpad X / FLPad             |   ✅    | ✅  |       ✅        |      ✅       |
+| Launchpad Mini Mk3 / FLPad Mini |   ✅    | ✅  |       ✅        |      ✅       |
+| Launchpad Pro                   |   ✅    | ✅  |       ✅        |      ✅       |
+| Launchpad Mk2                   |   ✅    | ✅  |       ✅        |      ✅       |
+| Launchpad Mini Mk1              |   ✅    | ❌  |       ❌        |      ❌       |
+| Launchpad S                     |   ✅    | ❌  |       ❌        |      ❌       |
 
 ## Roadmap
 
-- Native Live Modes for all Launchpads
+- Complete native Live instrument modes
 - Note Mode
 - Chord Mode
 - Custom Modes via Novation Components on all Launchpads
